@@ -18,3 +18,4 @@ class CheckingAcc(RayBank):
             print(f" Fee applied! ${fee} deducted. New balance: {self.current_balance}")
         else:
             print(" No fees applied, balance is healthy.")
+
