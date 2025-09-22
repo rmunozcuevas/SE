@@ -10,7 +10,10 @@ class RayBank:
         self.current_balance = current_balance
         self.minimum_balance = minimum_balance
 
-    
+        self._account_number = account_number #Protected member | Tristan 
+        self.__routing_number = routing_number #Private member | Tristan 
+
+
     def deposit(self,deposit):
         if isinstance(deposit, (int,float)):
             self.current_balance += deposit
@@ -49,11 +52,36 @@ check_acc.withdraw(220)   # allowed with overdraft
 check_acc.apply_fee()     # balance below minimum -> fee applied
 check_acc.withdraw(300)   # exceeds overdraft -> denied
 
+# Checking Account instances
+checking1 = CheckingAcc("Bob", 200, 50, account_number="98765432", routing_number="111000222", overdraft_limit=150)
+checking2 = CheckingAcc("Alice", 500, 100, account_number="12345678", routing_number="222000333", overdraft_limit=200)
+
+checking1.print_customer_information()
+checking1.withdraw(220)
+checking1.apply_fee()
+checking1.withdraw(300)
+
+checking2.print_customer_information()
+checking2.deposit(100)
+checking2.withdraw(550)
+checking2.apply_fee()
 
 
+# Savings Account instances
+savings1 = SavingsAcc("Charlie", 1000, 200, account_number="55555555", routing_number="333000444", interest_rate=0.02)
+savings2 = SavingsAcc("Diana", 1500, 300, account_number="66666666", routing_number="444000555", interest_rate=0.03)
 
+savings1.print_customer_information()
+savings1.deposit(200)
+savings1.add_interest()
+savings1.print_customer_information()
 
+savings2.print_customer_information()
+savings2.withdraw(400)
+savings2.add_interest()
+savings2.print_customer_information()
 
+# Example usage
 customer1 = RayBank("Jane", 500, 100)
 customer2 = RayBank("Maxwell", 1000, 200)
 
