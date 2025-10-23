@@ -25,5 +25,11 @@ def delete_sheep(id: int):
     return None
 
 
+@app.put("/sheep/{id}", response_model=Sheep)
+def update_sheep(id: int, sheep: Sheep):
+    if id not in db.data:
+        raise HTTPException(status_code=404, detail="Sheep not found")
+    db.data[id] = sheep
+    return sheep
 
 
