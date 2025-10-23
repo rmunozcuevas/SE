@@ -33,3 +33,11 @@ def update_sheep(id: int, sheep: Sheep):
     return sheep
 
 
+from typing import List
+
+@app.get("/sheep/", response_model=List[Sheep])
+def read_all_sheep():
+    return list(db.data.values())
+
+
+
