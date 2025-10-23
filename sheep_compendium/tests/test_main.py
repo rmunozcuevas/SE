@@ -28,6 +28,8 @@ def test_read_sheep():
 
 
 
+
+
 #define a test function for adding a new sheep
 def test_add_sheep():
     #TODO: prepare the new sheep data in the dictionary format
@@ -53,3 +55,32 @@ def test_add_sheep():
     get_response = client.get("/sheep/2")
     assert get_response.status_code == 200
     assert get_response.json() == new_sheep
+
+
+def test_read_sheep():
+    client.post("/sheep/", json={"id": 2, "name": "Molly", "age": 3})
+    response = client.get("/sheep/2")
+    assert response.status_code == 200
+    assert response.json()["name"] == "Molly"
+
+def test_update_sheep():
+    client.post("/sheep/", json={"id": 3, "name": "Polly", "age": 1})
+    response = client.put("/sheep/3", json={"id": 3, "name": "Polly", "age": 2})
+    assert response.status_code == 200
+    assert response.json()["age"] == 2
+
+def test_delete_sheep():
+    client.post("/sheep/", json={"id": 4, "name": "Lolly", "age": 2})
+    response = client.delete("/sheep/4")
+    assert response.status_code == 204
+    # Confirm deletion
+    response = client.get("/sheep/4")
+    assert response.status_code == 404
+
+def test_read_all_sheep():
+    # Ensure at least one sheep exists
+    client.post("/sheep/", json={"id": 5, "name": "Tolly", "age": 4})
+    response = client.get("/sheep/")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert any(s["id"] == 5 for s in response.json())
